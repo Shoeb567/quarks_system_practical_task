@@ -4,35 +4,25 @@ import '../utils/constant.dart';
 
 class RemoteConfig {
   RemoteConfig._();
-  final remoteConfig = FirebaseRemoteConfig.instance;
 
-  static Future<void> initializeRemoteConfig() async {
-    final remoteConfig = FirebaseRemoteConfig.instance;
-    await remoteConfig.setConfigSettings(RemoteConfigSettings(
-      fetchTimeout: const Duration(minutes: 1),
-      minimumFetchInterval: const Duration(hours: 1),
-    ));
-  }
+  static Future<void> fetchRemoteConfig() async {
+    try {
+      final remoteConfig = FirebaseRemoteConfig.instance;
+      // Setting the duration to zero seconds to fetch the values immediately
+      await remoteConfig.setConfigSettings(RemoteConfigSettings(
+        fetchTimeout: const Duration(seconds: 0),
+        minimumFetchInterval: const Duration(seconds: 0),
+      ));
 
-  static Future<void> fetchAndActivateRemoteConfig() async {
-    final remoteConfig = FirebaseRemoteConfig.instance;
-    bool updated = await remoteConfig.fetchAndActivate();
-
-    if (updated) {
-      print('The config has been updated.');
-    } else {
-      print('The config is not updated..');
+      await remoteConfig.fetchAndActivate();
+    } catch (exception) {
+      // Handle any errors
+      print('Failed to fetch remote config: $exception');
     }
-    // final remoteConfig = FirebaseRemoteConfig.instance;
-    // remoteConfig.onConfigUpdated.listen((event) async {
-    //   await remoteConfig.activate();
-    // });
   }
 
   static bool getValueFromRemoteConfig() {
     final remoteConfig = FirebaseRemoteConfig.instance;
     return remoteConfig.getBool(remoteConfigKey);
   }
-
-
 }

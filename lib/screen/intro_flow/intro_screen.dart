@@ -20,8 +20,8 @@ class IntroScreen extends StatefulWidget {
 class _IntroScreenState extends State<IntroScreen> {
   final List<Widget> introList = <Widget>[
     const IntroPage1(),
-    IntroPage2(),
-    IntroPage3()
+    const IntroPage2(),
+    const IntroPage3()
   ];
   int currentIndex = 0;
   PageController _controller = PageController();
@@ -52,7 +52,6 @@ class _IntroScreenState extends State<IntroScreen> {
                 currentIndex = index;
                 isCreateAccBtnExpanded = false;
                 if (mounted) setState(() {});
-
                 if (index == 2) {
                   Future.delayed(Duration(milliseconds: 300), () {
                     isCreateAccBtnExpanded = true;
@@ -67,19 +66,20 @@ class _IntroScreenState extends State<IntroScreen> {
             Container(
               width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height - 460),
+                  top: MediaQuery.of(context).size.height - 400),
               child: Center(
                 child: SmoothPageIndicator(
                     controller: _controller, // PageController
                     count: 3,
                     effect: const ExpandingDotsEffect(
-                        activeDotColor: AppColors.blueColor,
-                        dotColor: AppColors.greyColor,
-                        strokeWidth: 2,
-                        dotWidth: 12,
-                        dotHeight: 5,
-                        spacing: 4,
-                        expansionFactor: 2), // your preferred effect
+                      activeDotColor: AppColors.blueColor,
+                      dotColor: AppColors.greyColor,
+                      strokeWidth: 2,
+                      dotWidth: 12,
+                      dotHeight: 5,
+                      spacing: 4,
+                      expansionFactor: 2,
+                    ), // your preferred effect
                     onDotClicked: (index) {}),
               ),
             ),
@@ -92,39 +92,12 @@ class _IntroScreenState extends State<IntroScreen> {
                   child: currentIndex == introList.length - 1
                       ? commonButton(
                           title: "Get Started",
-                          backgroundColor:AppColors.blueColor,
+                          backgroundColor: AppColors.blueColor,
                           onTap: () {
-                            gteRemoteConfigDataAndRedirect();
+                            getRemoteConfigDataAndRedirect();
                           },
                         )
-                      : Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: commonButton(
-                                title: "Skip",
-                                borderColor: AppColors.buttonBorderColor,
-                                backgroundColor: AppColors.white,
-                                onTap: () {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const PaymentScreen()));
-                                },
-                              ),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              flex: 1,
-                              child: commonButton(
-                                title: "Next",
-                                backgroundColor: AppColors.blueColor,
-                                onTap: () {},
-                              ),
-                            ),
-                          ],
-                        ),
+                      : skipAndNextButton(),
                 ),
               ),
             )
@@ -134,30 +107,54 @@ class _IntroScreenState extends State<IntroScreen> {
     );
   }
 
-  void gteRemoteConfigDataAndRedirect() {
-    print("===================");
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const PaymentScreen(),
-      ),
+  void getRemoteConfigDataAndRedirect() {
+    final remoteConfigData = RemoteConfig.getValueFromRemoteConfig();
+    if (remoteConfigData) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const PaymentScreen(),
+        ),
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const ProfileScreen(),
+        ),
+      );
+    }
+  }
+  Widget skipAndNextButton(){
+    return Row(
+      children: [
+        Expanded(
+          flex: 1,
+          child: commonButton(
+            title: "Skip",
+            borderColor: AppColors.buttonBorderColor,
+            backgroundColor: AppColors.white,
+            textColor: AppColors.darkGreyColor,
+            onTap: () {
+              _controller.jumpToPage(2);
+            },
+          ),
+        ),
+        const SizedBox(width: 16),
+        Expanded(
+          flex: 1,
+          child: commonButton(
+            title: "Next",
+            backgroundColor: AppColors.blueColor,
+            onTap: () {
+              _controller.nextPage(
+                  duration:
+                  const Duration(milliseconds: 100),
+                  curve: Curves.bounceIn);
+            },
+          ),
+        ),
+      ],
     );
-    // final remoteConfigData = RemoteConfig.getValueFromRemoteConfig();
-    // print("======${remoteConfigData}");
-    // if (remoteConfigData) {
-    //   Navigator.pushReplacement(
-    //     context,
-    //     MaterialPageRoute(
-    //       builder: (context) => const PaymentScreen(),
-    //     ),
-    //   );
-    // } else {
-    //   Navigator.pushReplacement(
-    //     context,
-    //     MaterialPageRoute(
-    //       builder: (context) => const ProfileScreen(),
-    //     ),
-    //   );
-    // }
   }
 }

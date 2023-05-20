@@ -25,8 +25,7 @@ class IntroPage3 extends StatelessWidget {
           const SizedBox(height: 53),
           introMessageWidget(
             title1: "Become an expert \nyourself!",
-            title2:
-                "Uplift your skills, stay sharp & get winning edge. Get inside out to discoer your path. Boost your journey",
+            title2: "Uplift your skills, stay sharp & get winning edge. Get inside out to discoer your path. Boost your journey",
           )
         ],
       ),

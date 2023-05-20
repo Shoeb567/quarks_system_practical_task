@@ -26,8 +26,7 @@ class IntroPage1 extends StatelessWidget {
           const SizedBox(height: 53),
           introMessageWidget(
             title1: "Get unlimited access to \n high value courses",
-            title2:
-                "Choose which courses will give the breakthrough you’re looking for from our extensive courses library",
+            title2: "Choose which courses will give the breakthrough you’re looking for from our extensive courses library",
           )
         ],
       ),

@@ -7,4 +7,5 @@ class AppImages {
   static const mask_group_3 = 'assets/images/mask_group_3.png';
   static const splash_screen = 'assets/images/splash_screen.png';
   static const logOut = 'assets/images/log_out.svg';
+  static const lineIcon = 'assets/images/line_icon.svg';
 }

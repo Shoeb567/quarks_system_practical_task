@@ -25,8 +25,7 @@ class IntroPage2 extends StatelessWidget {
           const SizedBox(height: 53),
           introMessageWidget(
             title1: "Learn from expert \ncoaches & mentors",
-            title2:
-            "Learn from our expert mentors, coaches & industry experts who are passionate about coaching their students & mentees",
+            title2: "Learn from our expert mentors, coaches & industry experts who are passionate about coaching their students & mentees",
           )
         ],
       ),

@@ -15,7 +15,6 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
     Timer(
         const Duration(seconds: 3),
         () => Navigator.pushReplacement(context,
@@ -25,6 +24,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return  Image.asset(AppImages.splash_screen,fit: BoxFit.fill);
+    return Image.asset(AppImages.splash_screen, fit: BoxFit.fill);
   }
 }

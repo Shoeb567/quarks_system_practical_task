@@ -28,9 +28,10 @@ Widget commonButton(
         ),
       ),
       color: backgroundColor,
-      textColor: textColor,
       onPressed: onTap,
-      child: Text(title!),
+      child: Text(title!,
+          style: AppTextStyles.buttonTextStyle
+              .copyWith(color: textColor ?? AppColors.white)),
     ),
   );
 }
@@ -46,11 +47,14 @@ Widget introMessageWidget({String? title1, String? title2}) {
           Text(
             title1!,
             textAlign: TextAlign.center,
+            style: AppTextStyles.introTitleTextStyle,
           ),
           const SizedBox(height: 16),
-          Text(title2!,
-              textAlign: TextAlign.center,
-              style: AppTextStyles.buttonTextStyle),
+          Text(
+            title2!,
+            textAlign: TextAlign.center,
+            style: AppTextStyles.introSubStyle,
+          ),
         ],
       ),
     ),
@@ -65,9 +69,11 @@ Widget commonCourseWidget(
       children: [
         Row(
           children: [
-            Text(title!),
+            Text(title!, style: AppTextStyles.paymentDetailsStyle),
             const SizedBox(width: 8),
-            Text(courseLength!),
+            SvgPicture.asset(AppImages.lineIcon),
+            const SizedBox(width: 8),
+            Text(courseLength!, style: AppTextStyles.paymentDetailsStyle),
             const Spacer(),
             svgIcon ??
                 Container(
@@ -80,7 +86,7 @@ Widget commonCourseWidget(
                 )
           ],
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: 18),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,11 +99,13 @@ Widget commonCourseWidget(
                   children: [
                     SvgPicture.asset(AppImages.book),
                     const SizedBox(width: 8),
-                    const Text("₹ 999 / Month"),
+                    Text("₹ 999 / Month",
+                        style: AppTextStyles.amountDetailsStyle),
                   ],
                 ),
                 const SizedBox(height: 8),
-                const Text("Pay monthly, cancel any time"),
+                Text("Pay monthly, cancel any time",
+                    style: AppTextStyles.messageTextStyle),
               ],
             ),
             Padding(
@@ -115,10 +123,11 @@ Widget commonCourseWidget(
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Row(
-                      children: const [
-                        Text("View courses"),
-                        SizedBox(height: 2),
-                        Icon(Icons.arrow_forward_ios, size: 12)
+                      children: [
+                        Text("View courses",
+                            style: AppTextStyles.paymentDetailsStyle),
+                        const SizedBox(height: 2),
+                        const Icon(Icons.arrow_forward_ios, size: 12)
                       ],
                     ),
                   ),
@@ -132,12 +141,41 @@ Widget commonCourseWidget(
   );
 }
 
-Widget commonCoursePriceWidget({String? title, String? totalAmountValue}) {
+Widget commonCoursePriceWidget(
+    {String? title, String? totalAmountValue, Color? textColor}) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 20),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [Text(title!), Text(totalAmountValue!)],
+      children: [
+        Text(title!,
+            style: AppTextStyles.amountTitleStyle.copyWith(
+                color: textColor ?? AppColors.borderColor.withOpacity(0.5))),
+        Text(totalAmountValue!, style: AppTextStyles.amountDetailsStyle)
+      ],
+    ),
+  );
+}
+
+Decoration borderDecoration({Color? borderColor}) {
+  return BoxDecoration(
+    border: Border.all(
+        color: borderColor ?? AppColors.borderColor.withOpacity(0.08)),
+    borderRadius: BorderRadius.circular(16),
+  );
+}
+
+Widget mostPopularViewWidget() {
+  return Positioned(
+    top: 15,
+    left: 25,
+    child: Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        color: AppColors.blueColor,
+      ),
+      child: Text("Most popular", style: AppTextStyles.tagTextStyle),
     ),
   );
 }
